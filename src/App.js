@@ -4,15 +4,9 @@ import { interval, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 function App() {
-
-
-  
   const [sec, setSec] = useState(0);
   const [status, setStatus] = useState("stop");
-  const [count, setCount] = useState(1);
-  console.log("fdsfdf",count)
 
- 
   useEffect(() => {
     const unsub = new Subject();
     interval(1000)
@@ -22,8 +16,8 @@ function App() {
         } 
       });
     return () => {
-       unsub.next();
-       unsub.complete();
+      unsub.next();
+      unsub.complete();
     };
   }, [status]);
  
@@ -40,20 +34,13 @@ function App() {
     setSec(0);
   }, []);
  
-  const wait = React.useCallback(() => {
-    increment()
+  const wait = React.useCallback(() => {      
     setStatus("wait");
   }, []);
-
-  const increment = React.useCallback(() => {
-    setCount(count + 1);
-    console.log(count,"внизху")
-  }, []);
-
+ 
   return (
     <div>
-      <p>Вы кликнули {count} раз(а)</p>
-      <span> {new Date(sec).toISOString().slice(11, 19)}</span>
+<span> {new Date(sec).toISOString().slice(11, 19)}</span>
       <button className="start-button" onClick={start}>
         Start
       </button>
