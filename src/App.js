@@ -6,6 +6,7 @@ import { takeUntil } from "rxjs/operators";
 function App() {
   const [sec, setSec] = useState(0);
   const [status, setStatus] = useState("stop");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const unsub = new Subject();
@@ -13,34 +14,39 @@ function App() {
       .pipe(takeUntil(unsub)).subscribe(() => {
         if (status === "run") {
           setSec(a => a + 1000);
-        } 
+        }
       });
     return () => {
       unsub.next();
       unsub.complete();
     };
   }, [status]);
- 
+
   const start = React.useCallback(() => {
     setStatus("run");
   }, []);
- 
+
   const stop = React.useCallback(() => {
     setStatus("stop");
     setSec(0);
   }, []);
- 
+
   const reset = React.useCallback(() => {
     setSec(0);
   }, []);
- 
-  const wait = React.useCallback(() => {      
-    setStatus("wait");
-  }, []);
- 
+
+  const wait = () => {
+    setCount(count + 1)
+    interval(300)
+    if (count >= 2) {
+      setCount(0)
+      setStatus("wait");
+    } else return false
+  }
+
   return (
     <div>
-<span> {new Date(sec).toISOString().slice(11, 19)}</span>
+      <span> {new Date(sec).toISOString().slice(11, 19)}</span>
       <button className="start-button" onClick={start}>
         Start
       </button>
@@ -52,5 +58,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
