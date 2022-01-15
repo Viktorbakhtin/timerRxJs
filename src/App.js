@@ -47,12 +47,13 @@ function App() {
   return (
     <div>
       <span> {new Date(sec).toISOString().slice(11, 19)}</span>
-      <button className="start-button" onClick={start}>
-        Start
-      </button>
-      <button className="stop-button" onClick={stop}>
-        Stop
-      </button>
+      {
+        status == 'run' ? <button className="stop-button" onClick={stop}>
+          Stop
+        </button> : <button className="stop-button" onClick={start}>
+          Start
+        </button>
+      }
       <button onClick={reset}>Reset</button>
       <button onClick={wait}>Wait</button>
     </div>
